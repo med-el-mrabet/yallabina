@@ -42,7 +42,6 @@ public class HosterController {
     public void deleteHoster(@PathVariable ObjectId id) {
         hosterService.deleteHoster(id);
     }
-
     @PutMapping("/api/hosters/update/{id}")
     public ResponseEntity<String> updateHoster(@PathVariable ObjectId id, @RequestBody Hoster updateHoster) {
         Hoster existingHoster = hosterService.getSingleHoster(id);
