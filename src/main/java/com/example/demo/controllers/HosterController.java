@@ -83,7 +83,7 @@ public class HosterController {
                 existingHoster.get().setEmail(updateHoster.getEmail());
             }
 
-            hosterService.saveHoster(existingHoster);
+            hosterService.saveHoster();
 
             String successMessage = "Hoster updated successfully";
             return ResponseEntity.ok().body("{\"message\":\""+successMessage+"\"}");
