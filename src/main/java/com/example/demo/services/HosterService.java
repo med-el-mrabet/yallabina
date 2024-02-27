@@ -17,13 +17,14 @@ public class HosterService {
     public List<Hoster> getAllHosters(){
         return hosterRepository.findAll();
     }
-    public Optional<Hoster> getSingleHoster(ObjectId id){
-        return hosterRepository.findById(id);
+    public Hoster getSingleHoster(ObjectId id){
+        return hosterRepository.findById(id).orElse(null);
     }
 
     public void saveHoster(Hoster hoster) {
         hosterRepository.save(hoster);
     }
+
 
     public void deleteHoster(ObjectId id) {
         hosterRepository.deleteById(id);

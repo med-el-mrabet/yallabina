@@ -29,7 +29,7 @@ public class HosterController {
     }
 
     @GetMapping("/api/hosters/{id}")
-    public ResponseEntity<Optional<Hoster>> getSingleHoster(@PathVariable ObjectId id){
+    public ResponseEntity<Hoster> getSingleHoster(@PathVariable ObjectId id){
         return new ResponseEntity<>(hosterService.getSingleHoster(id), HttpStatus.OK);
     }
 
@@ -45,45 +45,45 @@ public class HosterController {
 
     @PutMapping("/api/hosters/update/{id}")
     public ResponseEntity<String> updateHoster(@PathVariable ObjectId id, @RequestBody Hoster updateHoster) {
-        Optional<Hoster> existingHoster = hosterService.getSingleHoster(id);
+        Hoster existingHoster = hosterService.getSingleHoster(id);
 
-        if (existingHoster.isPresent()) {
+        if (existingHoster != null) {
             if (updateHoster.getName() != null) {
-                existingHoster.get().setName(updateHoster.getName());
+                existingHoster.setName(updateHoster.getName());
             }
 
             if (updateHoster.getAdresse() != null) {
-                existingHoster.get().setAdresse(updateHoster.getAdresse());
+                existingHoster.setAdresse(updateHoster.getAdresse());
             }
 
             if (updateHoster.getCni() != null) {
-                existingHoster.get().setCni(updateHoster.getCni());
+                existingHoster.setCni(updateHoster.getCni());
             }
 
             if (updateHoster.getPhone_number() != null) {
-                existingHoster.get().setPhone_number(updateHoster.getPhone_number());
+                existingHoster.setPhone_number(updateHoster.getPhone_number());
             }
 
             if (updateHoster.getRib() != null) {
-                existingHoster.get().setRib(updateHoster.getRib());
+                existingHoster.setRib(updateHoster.getRib());
             }
             if (updateHoster.getAge() != null) {
-                existingHoster.get().setAge(updateHoster.getAge());
+                existingHoster.setAge(updateHoster.getAge());
             }
             if (updateHoster.getCategory() != null) {
-                existingHoster.get().setCategory(updateHoster.getCategory());
+                existingHoster.setCategory(updateHoster.getCategory());
             }
             if (updateHoster.getUsername() != null) {
-                existingHoster.get().setUsername(updateHoster.getUsername());
+                existingHoster.setUsername(updateHoster.getUsername());
             }
             if (updateHoster.getPassword() != null) {
-                existingHoster.get().setPassword(updateHoster.getPassword());
+                existingHoster.setPassword(updateHoster.getPassword());
             }
             if (updateHoster.getEmail() != null) {
-                existingHoster.get().setEmail(updateHoster.getEmail());
+                existingHoster.setEmail(updateHoster.getEmail());
             }
 
-            hosterService.saveHoster();
+            hosterService.saveHoster(existingHoster);
 
             String successMessage = "Hoster updated successfully";
             return ResponseEntity.ok().body("{\"message\":\""+successMessage+"\"}");
