@@ -11,19 +11,21 @@ import java.math.BigInteger;
 public class Listing {
     @Id
     private BigInteger id;
+    private String image;
     private String title;
     private String description;
     private String date;
     private Integer price;
     private String status;
     private String review;
-    private BigInteger hoster_id;
+    private String hoster_id;
+    private String category;
 
 
     public Listing(){}
 
 
-    public Listing(BigInteger id, String title, String description, String date, Integer price, String status, String review, BigInteger hoster_id) {
+    public Listing(BigInteger id, String title, String description, String date, Integer price, String status, String review, String hoster_id) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -82,7 +84,7 @@ public class Listing {
 
     public void setReview(String review){ this.review = review; }
 
-    public BigInteger getHoster_id(){ return hoster_id; }
+    public String getHoster_id(){ return hoster_id; }
 
-    public void setHoster_id(BigInteger hoster_id){ this.hoster_id = hoster_id ;}
+    public void setHoster_id(String hoster_id){ this.hoster_id = hoster_id ;}
 }
