@@ -10,5 +10,6 @@ import java.util.Optional;
 
 
 public interface HosterRepository extends MongoRepository<Hoster, ObjectId> {
+    Hoster findByEmail(String email);
 
 }

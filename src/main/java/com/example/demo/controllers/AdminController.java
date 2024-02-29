@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.Admin;
+import com.example.demo.entities.Hoster;
 import com.example.demo.services.AdminService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,18 @@ public class AdminController {
     }
 
     @GetMapping("/api/admins/{id}")
-    public ResponseEntity<Optional<Admin>> getSingleAdmin(@PathVariable ObjectId id){
+    public ResponseEntity<Admin> getSingleAdmin(@PathVariable ObjectId id){
         return new ResponseEntity<>(adminService.getSingleAdmin(id), HttpStatus.OK);
     }
 
     @PostMapping("/api/admins/add")
     public void addAgence(@RequestBody Admin admin){
         adminService.saveAdmin(admin);
+    }
+
+    @DeleteMapping("/api/admins/delete/{id}")
+    public void deleteHoster(@PathVariable ObjectId id) {
+        adminService.deleteHoster(id);
     }
 
 }

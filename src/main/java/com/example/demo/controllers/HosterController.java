@@ -2,21 +2,35 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Hoster;
 import com.example.demo.hosterservice;
+import com.example.demo.jwtconfigtocken.JwtUtil;
 import com.example.demo.services.HosterService;
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
+@PreAuthorize("hasRole('HOSTER')")
 public class HosterController {
     @Autowired
     private final HosterService hosterService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public HosterController(HosterService hosterService) {
         this.hosterService = hosterService;
@@ -88,6 +102,42 @@ public class HosterController {
             return ResponseEntity.ok().body("{\"message\":\""+successMessage+"\"}");
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @PostMapping("/signin")
+    public ResponseEntity<JwtResponse> signIn(@RequestBody Hoster hoster) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(hoster.getEmail(), hoster.getPassword())
+            );
+
+            UserDetails userDetails = hosterService.loadUserByUsername(hoster.getEmail());
+
+            if (!(hoster.isEnabled())) {
+                // User account is not validated
+                String errorMessage = "Veuillez activer votre compte en vérifiant votre e-mail.";
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JwtResponse(errorMessage, null, "", ""));
+            }
+
+            String jwt = jwtUtil.generateToken(userDetails);
+            String role = "HOSTER";
+            String username = userDetails.getUsername();
+            String userId = String.valueOf((hoster.getId()));
+
+            String prenom = hoster.getName();
+            String nom = hoster.getName();
+            String image = null;
+
+            JwtResponse response = new JwtResponse(jwt, userId, username, role);
+            response.setPrenom(prenom);
+            response.setNom(nom);
+            response.setImage(image);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            String errorMessage = "Invalid email or password";
+            return ResponseEntity.badRequest().body(new JwtResponse(errorMessage, null, "", ""));
         }
     }
 

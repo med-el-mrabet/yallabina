@@ -23,4 +23,7 @@ public class ListingService {
     public void saveListing(Listing listing) {
         listingRepository.save(listing);
     }
+    public void deleteHoster(ObjectId id) {
+        listingRepository.deleteById(id);
+    }
 }

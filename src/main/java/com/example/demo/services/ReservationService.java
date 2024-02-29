@@ -30,4 +30,7 @@ public class ReservationService {
     public void saveReservation(Reservation reservation) {
         reservationRepository.save(reservation);
     }
+    public void deleteHoster(ObjectId id) {
+        reservationRepository.deleteById(id);
+    }
 }

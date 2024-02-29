@@ -1,14 +1,21 @@
 package com.example.demo.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigInteger;
+import java.util.Collection;
 
 @Document(collection = "Hoster")
 @Data
-public class Hoster {
+@Getter
+@Setter
+public class Hoster implements UserDetails {
     @Id
     private BigInteger id;
     private String name;
@@ -38,91 +45,29 @@ public class Hoster {
         this.email = email;
     }
 
-    public BigInteger getId() {
-        return id;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getCni() {
-        return cni;
-    }
-
-    public void setCni(String cni) {
-        this.cni = cni;
-    }
-
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
-
-    public String getRib() {
-        return rib;
-    }
-
-    public void setRib(String rib) {
-        this.rib = rib;
-    }
-
-    public BigInteger getAge() {
-        return age;
-    }
-
-    public void setAge(BigInteger age) {
-        this.age = age;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

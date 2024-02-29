@@ -16,11 +16,14 @@ public class AdminService {
     public List<Admin> getAllAdmin(){
         return adminRepository.findAll();
     }
-    public Optional<Admin> getSingleAdmin(ObjectId id){
-        return adminRepository.findById(id);
+    public Admin getSingleAdmin(ObjectId id){
+        return adminRepository.findById(id).orElse(null);
     }
 
     public void saveAdmin(Admin admin) {
         adminRepository.save(admin);
+    }
+    public void deleteHoster(ObjectId id) {
+        adminRepository.deleteById(id);
     }
 }

@@ -23,4 +23,7 @@ public class VisitorService {
     public void saveVisitor(Visitor visitor) {
         visitorRepository.save(visitor);
     }
+    public void deleteHoster(ObjectId id) {
+        visitorRepository.deleteById(id);
+    }
 }
